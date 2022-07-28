@@ -1,23 +1,39 @@
-import logo from './logo.svg';
+import React, { Component } from 'react';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import './App.css';
+import NavBar from "./components/navbar";
+import Products from './components/products';
+import Posts from './components/posts';
+import Home from './components/home';
+import Dashboard from './components/admin/dashboard';
+import ProductDetails from './components/productDetails';
+import NotFound from './components/notFound';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+        <NavBar />
+        <div className='content'>
+          <Switch>
+            <Route  path="/products/:id" component={ProductDetails} />
+            {/* <Products sortBy="newest" /> */}
+            <Route path="/products" render={(props) => <Products sortBy="newest" {...props}/>} />
+            <Route path="/posts/:year?/:month?" component={Posts}/>
+            <Redirect from="/messages" to="/posts"/>
+            
+            <Route path="/admin" component={Dashboard}/>
+            <Route path="/not-found" component={NotFound}/>
+            <Route path="/" exact component={Home}/>
+            <Redirect to="/not-found" />
+            
+            {/* <Route path="/products" component={Products}/> */}
+            {/* <Route path="/posts" component={Posts}/> */}
+            {/* <Route path="/admin" component={Dashboard}/> */}
+            {/* <Route path="/" exact component={Home}/> */}
+            {/* <Route path="/" component={Home}/> */}
+          </Switch>
+        </div>
     </div>
   );
 }
